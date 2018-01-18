@@ -1,3 +1,36 @@
+vins=read.table(file='C:/Users/Olhagaray/Desktop/AgroParisTech/2A/Projet stats/TP_vins.csv', skip=0, header=TRUE, sep = ';', row.names =1 )
+
+summary(vins$nombre_declarations);summary(vins$superficie);summary(vins$total)
+
+
+str(vins)
+summary(vins)
+vinsac=vins[-81,-22]
+vinsacp=vinsac[-80,]
+summary(vinsacp$total)
+
+#ACP sur les données
+library(FactoMineR)
+res.pca=PCA(vinsacp,scale.unit=TRUE,graph=FALSE,quali.sup=13)
+plot(res.pca,cex=0.75,cex.lab=0.75,cex.axis=0.75)
+plot.PCA(res.acp,choix="var",1:2,col.hab=c("forestgreen","blue","brown","yellow4","black","cyan2","darkgoldenrod1","deepskyblue","darkorange","firebrick1","darkorchid1","deeppink","mediumvioletred","navyblue","palegreen","salmon","green","peru","black","gray","seagreen"),lim.cos2.var = 0.7)
+plot.PCA(res.acp,choix="ind",1:2,)
+
+#PRODUCTION NON COMMERCIALE
+#Tests des indications géographiques
+p.aop=(vins$qte_aop_blanc+vins$qte_aop_rouge+vins$qte_aop_rose)/vins$total
+test.aop=cor.test(p.aop,vins$prod_noncommerciale)
+test.aop
+
+p.igp=(vins$qte_igp_blanc+vins$qte_igp_rouge+vins$qte_igp_rose+vins$qte_igp_vci)/vins$total
+test.igp=cor.test(p.igp,vins$prod_noncommerciale)
+test.igp
+
+p.vsig=(vins$qte_vsig_blanc+vins$qte_vsig_rouge+vins$qte_vsig_rose)/vins$total
+test.vsig=cor.test(p.vsig,vins$prod_noncommerciale)
+test.vsig
+
+
 library(factoextra)
 library(NbClust)
 library('rgdal')      # Lire et reprojeter les cartes
