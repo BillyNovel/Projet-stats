@@ -38,7 +38,7 @@ library('plotrix')    # Créer des échelles de couleurs
 library('classInt')   # Affecter ces couleurs aux données
 
 ## Mise en forme
-TP=TP_vins[-81,-23]
+TP=vins[-81,-23]
 df = scale(na.omit(TP[,-1]))
 
 #Determination du nombre optimum de clusters
@@ -74,4 +74,8 @@ plot(deptclass,   col=deptclass$`TPCluster$cluster`,border = col,  lwd=.1, add=T
 
 
 dev.off()
+
+
+an<-lm(formula=vins$total~vins$superficie_aop*vins$superficie_vsig*vins$superficie_igp*deptclass$TPCluster$cluster)
+summary(an)
 
