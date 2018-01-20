@@ -18,18 +18,44 @@ plot.PCA(res.acp,choix="ind",1:2,)
 
 #PRODUCTION NON COMMERCIALE
 #Tests des indications géographiques
+vins=vins[,-81]
+
 p.aop=(vins$qte_aop_blanc+vins$qte_aop_rouge+vins$qte_aop_rose)/vins$total
-test.aop=cor.test(p.aop,vins$prod_noncommerciale)
+p.noncom=vins$prod_noncommerciale/vins$total
+test.aop=cor.test(p.aop,p.noncom)
 test.aop
 
 p.igp=(vins$qte_igp_blanc+vins$qte_igp_rouge+vins$qte_igp_rose+vins$qte_igp_vci)/vins$total
-test.igp=cor.test(p.igp,vins$prod_noncommerciale)
+test.igp=cor.test(p.igp,p.noncom)
 test.igp
 
 p.vsig=(vins$qte_vsig_blanc+vins$qte_vsig_rouge+vins$qte_vsig_rose)/vins$total
-test.vsig=cor.test(p.vsig,vins$prod_noncommerciale)
+test.vsig=cor.test(p.vsig,p.noncom)
 test.vsig
 
+p.aop.rouge=vins$qte_aop_rouge/vins$total
+test.aop.rouge=cor.test(p.aop.rouge,p.noncom)
+test.aop.rouge
+
+p.aop.blanc=vins$qte_aop_blanc/vins$total
+test.aop.blanc=cor.test(p.aop.blanc,p.noncom)
+test.aop.blanc
+
+p.aop.rose=vins$qte_aop_rose/vins$total
+test.aop.rose=cor.test(p.aop.rose,p.noncom)
+test.aop.rose
+
+p.vsig.rouge=vins$qte_vsig_rouge/vins$total
+test.vsig.rouge=cor.test(p.vsig.rouge,p.noncom)
+test.vsig.rouge
+
+p.vsig.rose=vins$qte_vsig_rose/vins$total
+test.vsig.rose=cor.test(p.vsig.rose,p.noncom)
+test.igp.rose
+
+p.vsig.blanc=vins$qte_igp_blanc/vins$total
+test.vsig.blanc=cor.test(p.vsig.blanc,p.noncom)
+test.igp.blanc
 
 library(factoextra)
 library(NbClust)
@@ -75,7 +101,11 @@ plot(deptclass,   col=deptclass$`TPCluster$cluster`,border = col,  lwd=.1, add=T
 
 dev.off()
 
-
-an<-lm(formula=vins$total~vins$superficie_aop*vins$superficie_vsig*vins$superficie_igp*deptclass$TPCluster$cluster)
+Data_Vins=read.table(file='C:/Users/Olhagaray/Documents/GitHub/Projet-stats/Data_Vins.csv', skip=0, header=TRUE, sep = ';', row.names =1 )
+an<-lm(formula=total~Cluster,data=Data_Vins)
 summary(an)
 
+total.lm=lm(total~nombre_declarations+superficie+superficie_aop+superficie_cognac+superficie_igp+superficie_vsig,data=vins)
+par(mfrow=c(2,2))
+plot(total.lm)
+step(total.lm)
