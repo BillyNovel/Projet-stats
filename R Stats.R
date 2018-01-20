@@ -102,9 +102,9 @@ plot(deptclass,   col=deptclass$`TPCluster$cluster`,border = col,  lwd=.1, add=T
 dev.off()
 
 Data_Vins=read.table("Data_Vins.csv", skip=0, header=TRUE, sep = ';', row.names =1 )
-an<-lm(formula=total~Cluster,data=Data_Vins)
-an1<-lm(formula=total~1,data= Data_Vins)
-anova(an,an1)
+anC<-lm(formula=total~Cluster,data=Data_Vins)
+an0<-lm(formula=total~1,data= Data_Vins)
+anova(anC,an0)
 summary(an)
 
 total.lm=lm(total~nombre_declarations+superficie+superficie_aop+superficie_cognac+superficie_igp+superficie_vsig,data=vins)
