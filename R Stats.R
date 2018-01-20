@@ -111,3 +111,7 @@ total.lm=lm(total~nombre_declarations+superficie+superficie_aop+superficie_cogna
 par(mfrow=c(2,2))
 plot(total.lm)
 step(total.lm)
+
+an2=lm(formula=total~nombre_declarations+superficie,data=Data_Vins)
+an3=lm(formula=total~nombre_declarations+superficie_aop+superficie_igp+superficie_cognac+superficie_vsig,data=Data_Vins)
+anova(an2,an3)
