@@ -115,3 +115,17 @@ step(total.lm)
 an2=lm(formula=total~nombre_declarations+superficie,data=Data_Vins)
 an3=lm(formula=total~nombre_declarations+superficie_aop+superficie_igp+superficie_cognac+superficie_vsig,data=Data_Vins)
 anova(an2,an3)
+
+#Graphes de diagnostic
+par(mfrow=c(2,2))
+plot(an3)
+
+#Passage au log
+logtotal=log(vins$total)
+logdecla=log(vins$nombre_declarations)
+logsaop=log(vins$superficie_aop)
+logsigp=log(vins$superficie_igp)
+logscognac=log(vins$superficie_cognac)
+logsvsig=log(vins$superficie_vsig)
+an4=lm(formula=logtotal~logdecla+logsaop+logsigp+logscognac+logsvsig,data=Data_Vins)
+
