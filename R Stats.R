@@ -57,6 +57,7 @@ p.vsig.blanc=vins$qte_igp_blanc/vins$total
 test.vsig.blanc=cor.test(p.vsig.blanc,p.noncom)
 test.igp.blanc
 
+#Bibliothèques pour la carte
 library(factoextra)
 library(NbClust)
 library('rgdal')      # Lire et reprojeter les cartes
@@ -83,6 +84,7 @@ departements <- readOGR(dsn="IGN",  layer="DEPARTEMENT")
 frontieres <- readOGR(dsn="IGN",  layer="LIMITE_DEPARTEMENT")
 frontieres <- frontieres[frontieres$NATURE %in% c('Fronti\xe8re internationale','Limite c\xf4ti\xe8re'),]
 
+#Jointure des deux BDD
 CODE_DEPT=sub(" .*","",TP_vins[1:79,1])
 TP_vins_esub=cbind(TableCarte[1:79,],CODE_DEPT)
 deptclass <- merge(departements, TP_vins_esub, by.x="CODE_DEPT", by.y="CODE_DEPT")
@@ -101,17 +103,20 @@ plot(deptclass,   col=deptclass$`TPCluster$cluster`,border = col,  lwd=.1, add=T
 
 dev.off()
 
+#Test sur les Clusters
 Data_Vins=read.table("Data_Vins.csv", skip=0, header=TRUE, sep = ';', row.names =1 )
 anC<-lm(formula=total~Cluster,data=Data_Vins)
 an0<-lm(formula=total~1,data= Data_Vins)
 anova(anC,an0)
 summary(an)
 
+#AIC excluant les productions
 total.lm=lm(total~nombre_declarations+superficie+superficie_aop+superficie_cognac+superficie_igp+superficie_vsig,data=Data_Vins)
 par(mfrow=c(2,2))
 plot(total.lm)
 step(total.lm)
 
+#Vérification
 an2=lm(formula=total~nombre_declarations+superficie,data=Data_Vins)
 an3=lm(formula=total~nombre_declarations+superficie_aop+superficie_igp+superficie_cognac+superficie_vsig,data=Data_Vins)
 anova(an2,an3)
