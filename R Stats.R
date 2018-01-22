@@ -1,4 +1,4 @@
-vins=read.table(file='C:/Users/Olhagaray/Desktop/AgroParisTech/2A/Projet stats/TP_vins.csv', skip=0, header=TRUE, sep = ';', row.names =1 )
+vins=read.table(file='TP_vins.csv', skip=0, header=TRUE, sep = ';', row.names =1 )
 
 summary(vins$nombre_declarations);summary(vins$superficie);summary(vins$total)
 
